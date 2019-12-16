@@ -28,23 +28,23 @@ class RunParams;
  *
  * \brief Enumeration defining size specification for the polybench kernels
  *
- * Polybench comes with a spec file to setup the iteration space for 
+ * Polybench comes with a spec file to setup the iteration space for
  * various sizes: Mini, Small, Medium, Large, Extralarge
  *
  * We adapt those entries within this perfsuite.
  *
  * The default size is Medium, which can be overridden at run-time.
  *
- * An example partial entry from that file showing the MINI and SMALL spec 
+ * An example partial entry from that file showing the MINI and SMALL spec
  * for the kernel 3mm is:
  *
  * kernel	category	datatype	params	MINI	SMALL	MEDIUM	LARGE	EXTRALARGE
- * 3mm	linear-algebra/kernels	double	NI NJ NK NL NM	16 18 20 22 24	40 50 60 70 80 .... 
+ * 3mm	linear-algebra/kernels	double	NI NJ NK NL NM	16 18 20 22 24	40 50 60 70 80 ....
  * *
  *******************************************************************************
  */
 enum SizeSpec {
-  
+
   Mini = 0,
   Small,
   Medium,
@@ -62,8 +62,8 @@ enum SizeSpec {
  *
  * IMPORTANT: This is only modified when a group is added or removed.
  *
- *            ENUM VALUES MUST BE KEPT CONSISTENT (CORRESPONDING ONE-TO-ONE) 
- *            WITH ARRAY OF GROUP NAMES IN IMPLEMENTATION FILE!!! 
+ *            ENUM VALUES MUST BE KEPT CONSISTENT (CORRESPONDING ONE-TO-ONE)
+ *            WITH ARRAY OF GROUP NAMES IN IMPLEMENTATION FILE!!!
  *
  *******************************************************************************
  */
@@ -88,8 +88,8 @@ enum GroupID {
  *
  * IMPORTANT: This is only modified when a kernel is added or removed.
  *
- *            ENUM VALUES MUST BE KEPT CONSISTENT (CORRESPONDING ONE-TO-ONE) 
- *            WITH ARRAY OF KERNEL NAMES IN IMPLEMENTATION FILE!!! 
+ *            ENUM VALUES MUST BE KEPT CONSISTENT (CORRESPONDING ONE-TO-ONE)
+ *            WITH ARRAY OF KERNEL NAMES IN IMPLEMENTATION FILE!!!
  *
  *******************************************************************************
  */
@@ -103,6 +103,7 @@ enum KernelID {
   Basic_INIT3,
   Basic_INIT_VIEW1D,
   Basic_INIT_VIEW1D_OFFSET,
+  Basic_LINSUM,
   Basic_MULADDSUB,
   Basic_NESTED_INIT,
   Basic_REDUCE3_INT,
@@ -170,7 +171,7 @@ enum KernelID {
  * IMPORTANT: This is only modified when a new kernel is added to the suite.
  *
  *            IT MUST BE KEPT CONSISTENT (CORRESPONDING ONE-TO-ONE) WITH
- *            ARRAY OF VARIANT NAMES IN IMPLEMENTATION FILE!!! 
+ *            ARRAY OF VARIANT NAMES IN IMPLEMENTATION FILE!!!
  *
  *******************************************************************************
  */
@@ -188,7 +189,7 @@ enum VariantID {
   RAJA_OpenMP,
 #endif
 
-#if defined(RAJA_ENABLE_TARGET_OPENMP)  
+#if defined(RAJA_ENABLE_TARGET_OPENMP)
   Base_OpenMPTarget,
   RAJA_OpenMPTarget,
 #endif
@@ -241,7 +242,7 @@ const std::string& getFullKernelName(KernelID kid);
  *
  *******************************************************************************
  */
-const std::string& getVariantName(VariantID vid); 
+const std::string& getVariantName(VariantID vid);
 
 /*!
  *******************************************************************************

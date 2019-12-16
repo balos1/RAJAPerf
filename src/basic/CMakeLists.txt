@@ -9,15 +9,15 @@
 blt_add_library(
   NAME basic
   SOURCES DAXPY.cpp
-          DAXPY-Seq.cpp 
-          DAXPY-Cuda.cpp 
-          DAXPY-OMP.cpp 
-          DAXPY-OMPTarget.cpp 
-          IF_QUAD.cpp 
-          IF_QUAD-Seq.cpp 
-          IF_QUAD-Cuda.cpp 
-          IF_QUAD-OMP.cpp 
-          IF_QUAD-OMPTarget.cpp 
+          DAXPY-Seq.cpp
+          DAXPY-Cuda.cpp
+          DAXPY-OMP.cpp
+          DAXPY-OMPTarget.cpp
+          IF_QUAD.cpp
+          IF_QUAD-Seq.cpp
+          IF_QUAD-Cuda.cpp
+          IF_QUAD-OMP.cpp
+          IF_QUAD-OMPTarget.cpp
           INIT3.cpp
           INIT3-Seq.cpp
           INIT3-Cuda.cpp
@@ -33,11 +33,13 @@ blt_add_library(
           INIT_VIEW1D_OFFSET-Cuda.cpp
           INIT_VIEW1D_OFFSET-OMP.cpp
           INIT_VIEW1D_OFFSET-OMPTarget.cpp
+          LINSUM.cpp
+          LINSUM-Seq.cpp
           MULADDSUB.cpp
           MULADDSUB-Seq.cpp
-          MULADDSUB-Cuda.cpp 
-          MULADDSUB-OMP.cpp 
-          MULADDSUB-OMPTarget.cpp 
+          MULADDSUB-Cuda.cpp
+          MULADDSUB-OMP.cpp
+          MULADDSUB-OMPTarget.cpp
           NESTED_INIT.cpp
           NESTED_INIT-Seq.cpp
           NESTED_INIT-Cuda.cpp
@@ -50,8 +52,8 @@ blt_add_library(
           REDUCE3_INT-OMPTarget.cpp
           TRAP_INT.cpp
           TRAP_INT-Seq.cpp
-          TRAP_INT-Cuda.cpp 
-          TRAP_INT-OMPTarget.cpp 
-          TRAP_INT-OMP.cpp 
+          TRAP_INT-Cuda.cpp
+          TRAP_INT-OMPTarget.cpp
+          TRAP_INT-OMP.cpp
   DEPENDS_ON common ${RAJA_PERFSUITE_DEPENDS}
   )
