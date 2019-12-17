@@ -31,9 +31,11 @@ LINSUM::~LINSUM()
 
 void LINSUM::setUp(VariantID vid)
 {
-  allocAndInitDataConst(m_y, getRunSize(), 0.0, vid);
+  allocAndInitDataConst(m_z, getRunSize(), 0.0, vid);
   allocAndInitData(m_x, getRunSize(), vid);
+  allocAndInitData(m_y, getRunSize(), vid);
   initData(m_a);
+  initData(m_b);
 }
 
 void LINSUM::updateChecksum(VariantID vid)

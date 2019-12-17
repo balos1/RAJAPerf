@@ -28,69 +28,71 @@ namespace basic
 
 
 #define LINSUM_DATA_SETUP_CUDA \
-  allocAndInitCudaDeviceData(x, m_x, iend); \
-  allocAndInitCudaDeviceData(y, m_y, iend);
+  allocAndInitCudaDeviceData(X, m_x, iend); \
+  allocAndInitCudaDeviceData(Y, m_y, iend); \
+  allocAndInitCudaDeviceData(Z, m_z, iend);
 
 #define LINSUM_DATA_TEARDOWN_CUDA \
-  getCudaDeviceData(m_y, y, iend); \
-  deallocCudaDeviceData(x); \
-  deallocCudaDeviceData(y);
+  getCudaDeviceData(m_z, Z, iend); \
+  deallocCudaDeviceData(X); \
+  deallocCudaDeviceData(Y); \
+  deallocCudaDeviceData(Z);
 
-/* __global__ void linsum(Real_ptr y, Real_ptr x, */ 
-/*                       Real_type a, */ 
-/*                       Index_type iend) */ 
-/* { */
-/*    Index_type i = blockIdx.x * blockDim.x + threadIdx.x; */
-/*    if (i < iend) { */
-/*      LINSUM_BODY; */ 
-/*    } */
-/* } */
+__global__ void linsum(Real_type a, Real_ptr X,
+                       Real_type b, Real_ptr Y,
+                       Real_ptr Z,
+                       Index_type iend) 
+{
+   Index_type i = blockIdx.x * blockDim.x + threadIdx.x;
+   if (i < iend) {
+     LINSUM_BODY; 
+   }
+}
 
 
 void LINSUM::runCudaVariant(VariantID vid)
 {
-  /* const Index_type run_reps = getRunReps(); */
-  /* const Index_type ibegin = 0; */
-  /* const Index_type iend = getRunSize(); */
+  const Index_type run_reps = getRunReps();
+  const Index_type ibegin = 0;
+  const Index_type iend = getRunSize();
 
-  /* LINSUM_DATA_SETUP; */
+  LINSUM_DATA_SETUP;
 
-  /* if ( vid == Base_CUDA ) { */
+  if ( vid == Base_CUDA ) {
 
-  /*   LINSUM_DATA_SETUP_CUDA; */
+    LINSUM_DATA_SETUP_CUDA;
 
-  /*   startTimer(); */
-  /*   for (RepIndex_type irep = 0; irep < run_reps; ++irep) { */
+    startTimer();
+    for (RepIndex_type irep = 0; irep < run_reps; ++irep) {
 
-  /*     const size_t grid_size = RAJA_DIVIDE_CEILING_INT(iend, block_size); */
-  /*     linsum<<<grid_size, block_size>>>( y, x, a, */
-  /*                                       iend ); */ 
+      const size_t grid_size = RAJA_DIVIDE_CEILING_INT(iend, block_size);
+      linsum<<<grid_size, block_size>>>( a, X, b, Y, Z, iend ); 
 
-  /*   } */
-  /*   stopTimer(); */
+    }
+    stopTimer();
 
-  /*   LINSUM_DATA_TEARDOWN_CUDA; */
+    LINSUM_DATA_TEARDOWN_CUDA;
 
-  /* } else if ( vid == RAJA_CUDA ) { */
+  } else if ( vid == RAJA_CUDA ) {
 
-  /*   LINSUM_DATA_SETUP_CUDA; */
+    LINSUM_DATA_SETUP_CUDA;
 
-  /*   startTimer(); */
-  /*   for (RepIndex_type irep = 0; irep < run_reps; ++irep) { */
+    startTimer();
+    for (RepIndex_type irep = 0; irep < run_reps; ++irep) {
 
-  ///*     RAJA::forall< RAJA::cuda_exec<block_size, true /*async*/> >( */
-  /*       RAJA::RangeSegment(ibegin, iend), [=] __device__ (Index_type i) { */
-  /*       LINSUM_BODY; */
-  /*     }); */
+      RAJA::forall< RAJA::cuda_exec<block_size, true /*async*/> >(
+        RAJA::RangeSegment(ibegin, iend), [=] __device__ (Index_type i) {
+        LINSUM_BODY;
+      });
 
-  /*   } */
-  /*   stopTimer(); */
+    }
+    stopTimer();
 
-  /*   LINSUM_DATA_TEARDOWN_CUDA; */
+    LINSUM_DATA_TEARDOWN_CUDA;
 
-  /* } else { */
-  /*    std::cout << "\n  LINSUM : Unknown Cuda variant id = " << vid << std::endl; */
-  /* } */
+  } else {
+     std::cout << "\n  LINSUM : Unknown Cuda variant id = " << vid << std::endl;
+  }
 }
 
 } // end namespace basic
