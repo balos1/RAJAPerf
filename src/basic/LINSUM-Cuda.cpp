@@ -16,7 +16,7 @@
 
 #include <iostream>
 
-namespace rajaperf 
+namespace rajaperf
 {
 namespace basic
 {
@@ -41,13 +41,27 @@ namespace basic
 __global__ void linsum(Real_type a, Real_ptr X,
                        Real_type b, Real_ptr Y,
                        Real_ptr Z,
-                       Index_type iend) 
+                       Index_type iend)
 {
    Index_type i = blockIdx.x * blockDim.x + threadIdx.x;
    if (i < iend) {
-     LINSUM_BODY; 
+     LINSUM_BODY;
    }
 }
+
+__global__ void linsum_gridstride(Real_type a, Real_ptr X,
+                                  Real_type b, Real_ptr Y,
+                                  Real_ptr Z,
+                                  Index_type iend)
+{
+   for (Index_type i = blockIdx.x * blockDim.x + threadIdx.x;
+        i < iend;
+        i += blockDim.x*gridDim.x)
+   {
+     LINSUM_BODY;
+   }
+}
+
 
 
 void LINSUM::runCudaVariant(VariantID vid)
@@ -66,7 +80,26 @@ void LINSUM::runCudaVariant(VariantID vid)
     for (RepIndex_type irep = 0; irep < run_reps; ++irep) {
 
       const size_t grid_size = RAJA_DIVIDE_CEILING_INT(iend, block_size);
-      linsum<<<grid_size, block_size>>>( a, X, b, Y, Z, iend ); 
+      linsum<<<grid_size, block_size>>>( a, X, b, Y, Z, iend );
+
+    }
+    stopTimer();
+
+    LINSUM_DATA_TEARDOWN_CUDA;
+
+  } else if ( vid == Base_CUDA_GridStride) {
+
+    LINSUM_DATA_SETUP_CUDA;
+
+    startTimer();
+    for (RepIndex_type irep = 0; irep < run_reps; ++irep) {
+
+      int device, numSM;
+      cudaGetDevice(&device);
+      cudaDeviceGetAttribute(&numSM, cudaDevAttrMultiProcessorCount, device);
+
+      const size_t grid_size = 32*numSM;
+      linsum<<<grid_size, block_size>>>( a, X, b, Y, Z, iend );
 
     }
     stopTimer();

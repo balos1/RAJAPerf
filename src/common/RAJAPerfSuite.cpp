@@ -214,13 +214,14 @@ static const std::string VariantNames [] =
   std::string("RAJA_OpenMP"),
 #endif
 
-#if defined(RAJA_ENABLE_TARGET_OPENMP)  
+#if defined(RAJA_ENABLE_TARGET_OPENMP)
   std::string("Base_OMPTarget"),
   std::string("RAJA_OMPTarget"),
 #endif
 
 #if defined(RAJA_ENABLE_CUDA)
   std::string("Base_CUDA"),
+  std::string("Base CUDA Grid Stride")
   std::string("RAJA_CUDA"),
 #endif
 
