@@ -196,7 +196,7 @@ enum VariantID {
 
 #if defined(RAJA_ENABLE_CUDA)
   Base_CUDA,
-  Base_CUDA_GridStride,
+  /* Base_CUDAGridStride, */
   RAJA_CUDA,
 #endif
 

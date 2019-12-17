@@ -87,19 +87,19 @@ void LINSUM::runCudaVariant(VariantID vid)
 
     LINSUM_DATA_TEARDOWN_CUDA;
 
-  } else if ( vid == Base_CUDA_GridStride) {
+  } else if ( vid == Base_CUDAGridStride ) {
 
     LINSUM_DATA_SETUP_CUDA;
+    
+    int device, numSM;
+    cudaGetDevice(&device);
+    cudaDeviceGetAttribute(&numSM, cudaDevAttrMultiProcessorCount, device);
 
     startTimer();
     for (RepIndex_type irep = 0; irep < run_reps; ++irep) {
 
-      int device, numSM;
-      cudaGetDevice(&device);
-      cudaDeviceGetAttribute(&numSM, cudaDevAttrMultiProcessorCount, device);
-
       const size_t grid_size = 32*numSM;
-      linsum<<<grid_size, block_size>>>( a, X, b, Y, Z, iend );
+      linsum_gridstride<<<grid_size, block_size>>>( a, X, b, Y, Z, iend );
 
     }
     stopTimer();

@@ -40,7 +40,7 @@ void LINSUM::setUp(VariantID vid)
 
 void LINSUM::updateChecksum(VariantID vid)
 {
-  checksum[vid] += calcChecksum(m_y, getRunSize());
+  checksum[vid] += calcChecksum(m_z, getRunSize());
 }
 
 void LINSUM::tearDown(VariantID vid)
@@ -48,6 +48,7 @@ void LINSUM::tearDown(VariantID vid)
   (void) vid;
   deallocData(m_x);
   deallocData(m_y);
+  deallocData(m_z);
 }
 
 } // end namespace basic

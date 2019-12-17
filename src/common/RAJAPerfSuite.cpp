@@ -221,7 +221,7 @@ static const std::string VariantNames [] =
 
 #if defined(RAJA_ENABLE_CUDA)
   std::string("Base_CUDA"),
-  std::string("Base CUDA Grid Stride")
+  /* std::string("Base_CUDAGridStride"), */
   std::string("RAJA_CUDA"),
 #endif
 
