@@ -35,6 +35,8 @@ blt_add_library(
           INIT_VIEW1D_OFFSET-OMPTarget.cpp
           LINSUM.cpp
           LINSUM-Seq.cpp
+          LINSUM-Cuda.cpp
+          LINSUM-OMP.cpp
           MULADDSUB.cpp
           MULADDSUB-Seq.cpp
           MULADDSUB-Cuda.cpp

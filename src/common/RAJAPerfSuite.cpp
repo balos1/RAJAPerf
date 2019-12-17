@@ -18,6 +18,7 @@
 #include "basic/INIT3.hpp"
 #include "basic/INIT_VIEW1D.hpp"
 #include "basic/INIT_VIEW1D_OFFSET.hpp"
+#include "basic/LINSUM.hpp"
 #include "basic/MULADDSUB.hpp"
 #include "basic/NESTED_INIT.hpp"
 #include "basic/REDUCE3_INT.hpp"
@@ -126,6 +127,7 @@ static const std::string KernelNames [] =
   std::string("Basic_INIT3"),
   std::string("Basic_INIT_VIEW1D"),
   std::string("Basic_INIT_VIEW1D_OFFSET"),
+  std::string("Basic_LINSUM"),
   std::string("Basic_MULADDSUB"),
   std::string("Basic_NESTED_INIT"),
   std::string("Basic_REDUCE3_INT"),
@@ -315,6 +317,10 @@ KernelBase* getKernelObject(KernelID kid,
     }
     case Basic_INIT_VIEW1D_OFFSET : {
        kernel = new basic::INIT_VIEW1D_OFFSET(run_params);
+       break;
+    }
+    case Basic_LINSUM : {
+       kernel = new basic::LINSUM(run_params);
        break;
     }
     case Basic_MULADDSUB : {

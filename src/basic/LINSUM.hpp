@@ -18,9 +18,11 @@
 #define RAJAPerf_Basic_LINSUM_HPP
 
 #define LINSUM_DATA_SETUP \
-  Real_ptr x = m_x; \
-  Real_ptr y = m_y; \
-  Real_type a = m_a;
+  Real_ptr X = m_x; \
+  Real_ptr Y = m_y; \
+  Real_ptr Z = m_z; \
+  Real_type a = m_a; \
+  Real_type b = m_a;
 
 #define LINSUM_BODY  \
   Z[i] = a*X[i] + b*Y[i];
@@ -55,7 +57,9 @@ public:
 private:
   Real_ptr m_x;
   Real_ptr m_y;
+  Real_ptr m_z;
   Real_type m_a;
+  Real_type m_b;
 };
 
 } // end namespace basic
